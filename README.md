@@ -1,3 +1,3 @@
-# seebeck_measurement
+# hot_press_monitor
 
-This project is for the measurement of the seebeck coefficient of thermoelectric materials.
+This project is for monitoring the system status during hot-pressing of thermoelectric samples.
