@@ -1,0 +1,102 @@
+2014-07-07 13:27:23,029 - ERROR - Function self.updateGUI(plot="Voltage High", data=float(highV_corrected)) raised <type 'exceptions.AssertionError'> (Assertion failed.): No wx.App created yet
+2014-08-04 13:13:55,520 - ERROR - Function self.updateGUI(plot="Temperature B", data=float(tempB)) raised <type 'exceptions.AssertionError'> (Assertion failed.): No wx.App created yet
+2014-08-04 13:40:16,046 - ERROR - Function self.take_PID_Data() raised <type 'exceptions.IndexError'> (Sequence index out of range.): list index out of range
+2014-08-04 13:42:47,819 - ERROR - Function self.take_PID_Data() # refer to definition) raised <type 'exceptions.IndexError'> (Sequence index out of range.): list index out of range
+2015-02-05 10:21:04,160 - ERROR - Function self.lowV_raw2 = lowV_raw2 = float(lowV_raw2)*1000000 # uV raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+273311
+2015-02-05 10:31:51,641 - ERROR - Function self.highV_raw = highV_raw = float(highV_raw)*1000000 # uV raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+273344
+2015-02-05 10:38:42,710 - ERROR - Function self.updateGUI(plot="Temperature A", data=float(tempA)) raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+273358
+2015-02-05 11:25:16,895 - ERROR - Function self.highV_raw = highV_raw = float(highV_raw)*1000000 # uV raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+273606
+2015-02-05 11:50:24,855 - ERROR - Function self.highV_raw = highV_raw = float(highV_raw)*1000000 # uV raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+273684
+2015-02-08 12:22:01,644 - ERROR - Function self.highV_raw2 = highV_raw2 = float(highV_raw2)*1000000 # uV raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+298351
+2015-02-08 12:22:40,885 - ERROR - Function self.highV_raw = highV_raw = float(highV_raw)*1000000 # uV raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): invalid literal for float(): +9.9E37,+298352
+2015-02-10 13:54:44,190 - ERROR - Function self.tempA = tempA = self.Keithley.fetch(tempAChannel) raised <class 'pyvisa.visa_exceptions.VisaIOError'> (Exception class for VISA I/O errors.
+
+    Please note that all values for "error_code" are negative according to the
+    specification (VPP-4.3.2, observation 3.3.2) and the NI implementation.
+
+    ): VI_ERROR_CONN_LOST: The connection for the given session has been lost.
+2015-02-19 09:33:30,033 - ERROR - Function highV_raw2 = self.Keithley.fetch(highVChannel) raised <class 'pyvisa.visa_exceptions.VisaIOError'> (Exception class for VISA I/O errors.
+
+    Please note that all values for "error_code" are negative according to the
+    specification (VPP-4.3.2, observation 3.3.2) and the NI implementation.
+
+    ): VI_ERROR_CONN_LOST: The connection for the given session has been lost.
+2015-02-26 15:25:13,568 - DEBUG - viParseRsrcEx(4097L, 'GPIB2::1::INSTR', 'c_ushort(1)', 'c_ushort(2)', <ctypes.c_char_Array_256 object at 0x10d512320>, <ctypes.c_char_Array_256 object at 0x10d512200>, <ctypes.c_char_Array_256 object at 0x10d5120e0>) -> 0
+2015-02-26 15:25:13,604 - DEBUG - GPIB2::1::INSTR - opening ...
+2015-02-26 15:25:13,630 - DEBUG - viOpen(4097L, 'GPIB2::1::INSTR', <AccessModes.no_lock: 0>, 0, '<ViObject object at 0x10d5120e0>') -> 0
+2015-02-26 15:25:13,631 - DEBUG - GPIB2::1::INSTR - is open with session 1
+2015-02-26 15:25:54,437 - DEBUG - viParseRsrcEx(4097L, 'GPIB2::1::INSTR', 'c_ushort(1)', 'c_ushort(2)', <ctypes.c_char_Array_256 object at 0x10d512320>, <ctypes.c_char_Array_256 object at 0x10d512200>, <ctypes.c_char_Array_256 object at 0x10d5120e0>) -> 0
+2015-02-26 15:25:54,437 - DEBUG - GPIB2::1::INSTR - opening ...
+2015-02-26 15:25:54,442 - DEBUG - viOpen(4097L, 'GPIB2::1::INSTR', <AccessModes.no_lock: 0>, 0, '<ViObject object at 0x10d5120e0>') -> 0
+2015-02-26 15:25:54,442 - DEBUG - GPIB2::1::INSTR - is open with session 1
+2015-02-26 15:29:27,180 - DEBUG - GPIB2::1::INSTR - closing
+2015-02-26 15:29:27,180 - DEBUG - viDisableEvent(1L, 1073709055, 65535) -> 1073676291
+2015-02-26 15:29:27,180 - DEBUG - viDiscardEvents(1L, 1073709055, 65535) -> 1073676292
+2015-02-26 15:29:27,181 - DEBUG - viClose(1L,) -> 0
+2015-02-26 15:29:27,181 - DEBUG - GPIB2::1::INSTR - is closed
+2015-02-26 15:32:12,019 - DEBUG - viParseRsrcEx(4097L, 'GPIB2::1::INSTR', 'c_ushort(1)', 'c_ushort(2)', <ctypes.c_char_Array_256 object at 0x10d458320>, <ctypes.c_char_Array_256 object at 0x10d458200>, <ctypes.c_char_Array_256 object at 0x10d4580e0>) -> 0
+2015-02-26 15:32:12,019 - DEBUG - GPIB2::1::INSTR - opening ...
+2015-02-26 15:32:12,023 - DEBUG - viOpen(4097L, 'GPIB2::1::INSTR', <AccessModes.no_lock: 0>, 0, '<ViObject object at 0x10d4580e0>') -> 0
+2015-02-26 15:32:12,024 - DEBUG - GPIB2::1::INSTR - is open with session 1
+2015-02-26 15:34:14,298 - DEBUG - GPIB2::1::INSTR - closing
+2015-02-26 15:34:14,298 - DEBUG - viDisableEvent(1L, 1073709055, 65535) -> 1073676291
+2015-02-26 15:34:14,298 - DEBUG - viDiscardEvents(1L, 1073709055, 65535) -> 1073676292
+2015-02-26 15:34:14,299 - DEBUG - viClose(1L,) -> 0
+2015-02-26 15:34:14,299 - DEBUG - GPIB2::1::INSTR - is closed
+2015-02-26 15:35:03,777 - DEBUG - viParseRsrcEx(4097L, 'GPIB2::1::INSTR', 'c_ushort(1)', 'c_ushort(2)', <ctypes.c_char_Array_256 object at 0x10d418320>, <ctypes.c_char_Array_256 object at 0x10d418200>, <ctypes.c_char_Array_256 object at 0x10d4180e0>) -> 0
+2015-02-26 15:35:03,778 - DEBUG - GPIB2::1::INSTR - opening ...
+2015-02-26 15:35:03,784 - DEBUG - viOpen(4097L, 'GPIB2::1::INSTR', <AccessModes.no_lock: 0>, 0, '<ViObject object at 0x10d4180e0>') -> 0
+2015-02-26 15:35:03,784 - DEBUG - GPIB2::1::INSTR - is open with session 1
+2015-02-26 15:35:03,797 - DEBUG - viWrite(1L, ':SENSe1:TEMPerature:TCouple:TYPE K\r\n', 36, 'c_ulong(36L)') -> 0
+2015-02-26 15:35:03,812 - DEBUG - viWrite(1L, ":SENSe1:FUNCtion 'TEMPerature', (@ 109,110)\r\n", 45, 'c_ulong(45L)') -> 0
+2015-02-26 15:35:03,821 - DEBUG - viWrite(1L, ":SENSe1:FUNCtion 'VOLTage:DC', (@ 107,108)\r\n", 44, 'c_ulong(44L)') -> 0
+2015-02-26 15:35:03,829 - DEBUG - viWrite(1L, ':TRIGger:SEQuence1:DELay 0\r\n', 28, 'c_ulong(28L)') -> 0
+2015-02-26 15:35:03,835 - DEBUG - viWrite(1L, ':TRIGger:SEQuence1:COUNt 1\r\n', 28, 'c_ulong(28L)') -> 0
+2015-02-26 15:35:03,846 - DEBUG - viWrite(1L, ':SENSe1:VOLTage:DC:NPLCycles 5, (@ 107,108)\r\n', 45, 'c_ulong(45L)') -> 0
+2015-02-26 15:35:03,857 - DEBUG - viWrite(1L, ':SENSe1:TEMPerature:NPLCycles 5, (@ 109,110)\r\n', 46, 'c_ulong(46L)') -> 0
+2015-02-26 15:35:23,003 - DEBUG - viParseRsrcEx(4097L, 'GPIB2::1::INSTR', 'c_ushort(1)', 'c_ushort(2)', <ctypes.c_char_Array_256 object at 0x10d418320>, <ctypes.c_char_Array_256 object at 0x10d4184d0>, <ctypes.c_char_Array_256 object at 0x10d418440>) -> 0
+2015-02-26 15:35:23,004 - DEBUG - GPIB2::1::INSTR - opening ...
+2015-02-26 15:35:23,008 - DEBUG - viOpen(4097L, 'GPIB2::1::INSTR', <AccessModes.no_lock: 0>, 0, '<ViObject object at 0x10d418440>') -> 0
+2015-02-26 15:35:23,008 - DEBUG - GPIB2::1::INSTR - is open with session 2
+2015-02-26 15:35:23,008 - DEBUG - GPIB2::1::INSTR - closing
+2015-02-26 15:35:23,008 - DEBUG - viDisableEvent(1L, 1073709055, 65535) -> 1073676291
+2015-02-26 15:35:23,008 - DEBUG - viDiscardEvents(1L, 1073709055, 65535) -> 1073676292
+2015-02-26 15:35:23,009 - DEBUG - viClose(1L,) -> 0
+2015-02-26 15:35:23,009 - DEBUG - GPIB2::1::INSTR - is closed
+2015-02-26 15:35:23,016 - DEBUG - viWrite(2L, ':SENSe1:TEMPerature:TCouple:TYPE K\r\n', 36, 'c_ulong(36L)') -> 0
+2015-02-26 15:35:23,024 - DEBUG - viWrite(2L, ":SENSe1:FUNCtion 'TEMPerature', (@ 109,110)\r\n", 45, 'c_ulong(45L)') -> 0
+2015-02-26 15:35:23,033 - DEBUG - viWrite(2L, ":SENSe1:FUNCtion 'VOLTage:DC', (@ 107,108)\r\n", 44, 'c_ulong(44L)') -> 0
+2015-02-26 15:35:23,039 - DEBUG - viWrite(2L, ':TRIGger:SEQuence1:DELay 0\r\n', 28, 'c_ulong(28L)') -> 0
+2015-02-26 15:35:23,044 - DEBUG - viWrite(2L, ':TRIGger:SEQuence1:COUNt 1\r\n', 28, 'c_ulong(28L)') -> 0
+2015-02-26 15:35:23,053 - DEBUG - viWrite(2L, ':SENSe1:VOLTage:DC:NPLCycles 5, (@ 107,108)\r\n', 45, 'c_ulong(45L)') -> 0
+2015-02-26 15:35:23,062 - DEBUG - viWrite(2L, ':SENSe1:TEMPerature:NPLCycles 5, (@ 109,110)\r\n', 46, 'c_ulong(46L)') -> 0
+2015-02-26 15:36:10,094 - DEBUG - viParseRsrcEx(4097L, 'GPIB2::1::INSTR', 'c_ushort(1)', 'c_ushort(2)', <ctypes.c_char_Array_256 object at 0x10d7d20e0>, <ctypes.c_char_Array_256 object at 0x10d7d2170>, <ctypes.c_char_Array_256 object at 0x10d7d2200>) -> 0
+2015-02-26 15:36:10,094 - DEBUG - GPIB2::1::INSTR - opening ...
+2015-02-26 15:36:10,098 - DEBUG - viOpen(4097L, 'GPIB2::1::INSTR', <AccessModes.no_lock: 0>, 0, '<ViObject object at 0x10d418440>') -> 0
+2015-02-26 15:36:10,099 - DEBUG - GPIB2::1::INSTR - is open with session 1
+2015-02-26 15:36:10,099 - DEBUG - GPIB2::1::INSTR - closing
+2015-02-26 15:36:10,099 - DEBUG - viDisableEvent(2L, 1073709055, 65535) -> 1073676291
+2015-02-26 15:36:10,099 - DEBUG - viDiscardEvents(2L, 1073709055, 65535) -> 1073676292
+2015-02-26 15:36:10,100 - DEBUG - viClose(2L,) -> 0
+2015-02-26 15:36:10,100 - DEBUG - GPIB2::1::INSTR - is closed
+2015-02-26 15:36:10,107 - DEBUG - viWrite(1L, ':SENSe1:TEMPerature:TCouple:TYPE K\r\n', 36, 'c_ulong(36L)') -> 0
+2015-02-26 15:36:10,115 - DEBUG - viWrite(1L, ":SENSe1:FUNCtion 'TEMPerature', (@ 109,110)\r\n", 45, 'c_ulong(45L)') -> 0
+2015-02-26 15:36:10,123 - DEBUG - viWrite(1L, ":SENSe1:FUNCtion 'VOLTage:DC', (@ 107,108)\r\n", 44, 'c_ulong(44L)') -> 0
+2015-02-26 15:36:10,129 - DEBUG - viWrite(1L, ':TRIGger:SEQuence1:DELay 0\r\n', 28, 'c_ulong(28L)') -> 0
+2015-02-26 15:36:10,135 - DEBUG - viWrite(1L, ':TRIGger:SEQuence1:COUNt 1\r\n', 28, 'c_ulong(28L)') -> 0
+2015-02-26 15:36:10,144 - DEBUG - viWrite(1L, ':SENSe1:VOLTage:DC:NPLCycles 5, (@ 107,108)\r\n', 45, 'c_ulong(45L)') -> 0
+2015-02-26 15:36:10,152 - DEBUG - viWrite(1L, ':SENSe1:TEMPerature:NPLCycles 5, (@ 109,110)\r\n', 46, 'c_ulong(46L)') -> 0
+2015-02-26 15:37:10,025 - DEBUG - GPIB2::1::INSTR - closing
+2015-02-26 15:37:10,025 - DEBUG - viDisableEvent(1L, 1073709055, 65535) -> 1073676291
+2015-02-26 15:37:10,025 - DEBUG - viDiscardEvents(1L, 1073709055, 65535) -> 1073676292
+2015-02-26 15:37:10,026 - DEBUG - viClose(1L,) -> 0
+2015-02-26 15:37:10,026 - DEBUG - GPIB2::1::INSTR - is closed
+2015-03-10 12:59:06,207 - ERROR - Function self.take_PID_Data() raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): The slave is indicating an error. The response is: '\x01\x90\x03\x0c\x01'
+2015-03-10 14:45:30,526 - ERROR - Function self.take_PID_Data() raised <type 'exceptions.ValueError'> (Inappropriate argument value (of correct type).): The slave is indicating an error. The response is: '\x01\x90\x03\x0c\x01'
+2015-03-12 12:23:42,614 - ERROR - Function self.tempB = tempB = self.Keithley.fetch(tempBChannel) raised <class 'pyvisa.visa_exceptions.VisaIOError'> (Exception class for VISA I/O errors.
+
+    Please note that all values for "error_code" are negative according to the
+    specification (VPP-4.3.2, observation 3.3.2) and the NI implementation.
+
+    ): VI_ERROR_TMO: Timeout expired before operation completed.
+2015-03-23 12:10:20,505 - DEBUG - viParseRsrcEx(4097L, 'GPIB0::1::INSTR', 'c_ushort(0)', 'c_ushort(0)', <ctypes.c_char_Array_256 object at 0x10c033680>, <ctypes.c_char_Array_256 object at 0x10c033560>, <ctypes.c_char_Array_256 object at 0x10c0334d0>) -> 3221160101
