@@ -312,13 +312,13 @@ class TakeData:
         time.sleep(.1)
 
         # get feedthrough temps
-        #self.temp_ftl, self.temp_ftr = self.lj.measure_feedthrough_temps()
-        #self.ttemp_ft = time.time() - self.start
-        #self.updateGUI(stamp="Time Temp_Feedthroughs", data=self.ttemp_ft)
-        #self.updateGUI(stamp="Temp_Feedthrough_Left", data=self.temp_ftl)
-        #self.updateGUI(stamp="Temp_Feedthrough_Right", data=self.temp_ftr)
-        #print "time: %.0f s\ttemp_feedthrough_left: %f C" % (self.ttemp_ft, self.temp_ftl)
-        #print "time: %.0f s\ttemp_feedthrough_right: %f C" % (self.ttemp_ft, self.temp_ftr)
+        self.temp_ftl, self.temp_ftr = self.lj.measure_feedthrough_temps()
+        self.ttemp_ft = time.time() - self.start
+        self.updateGUI(stamp="Time Temp_Feedthroughs", data=self.ttemp_ft)
+        self.updateGUI(stamp="Temp_Feedthrough_Left", data=self.temp_ftl)
+        self.updateGUI(stamp="Temp_Feedthrough_Right", data=self.temp_ftr)
+        print "time: %.0f s\ttemp_feedthrough_left: %f C" % (self.ttemp_ft, self.temp_ftl)
+        print "time: %.0f s\ttemp_feedthrough_right: %f C" % (self.ttemp_ft, self.temp_ftr)
 
         #time.sleep(.1)
 
@@ -516,7 +516,7 @@ class UserPanel(wx.Panel):
                 file = dataFile # creates a data file
                 myfile = open(dataFile, 'w') # opens file for writing/overwriting
                 myfile.write('hot press data\nstart time: ' + str(begin) + '\n')
-                myfile.write('run time (s), displacement (mm), cylinder pressure (PSI), sample pressure (MPa), vacuum pressure (mTorr), sample temperature (C)\n')
+                myfile.write('run time (s), displacement (mm), cylinder pressure (PSI), sample pressure (MPa), vacuum pressure (mTorr), sample temperature (C), left feedthrough temperature (C),right feedthrough temperature (C)\n')
 
                 abort_ID = 0
 
@@ -663,8 +663,8 @@ class StatusPanel(wx.Panel):
         self.pressure_sample = str(0)
         self.pressure_chamber = str(0)
         self.temp_sample = str(30)
-        #self.temp_ft_left = str(30)
-        #self.temp_ft_right = str(30)
+        self.temp_ft_left = str(30)
+        self.temp_ft_right = str(30)
         self.displacement = str(0)
 
         self.create_title("System Status")
@@ -681,7 +681,7 @@ class StatusPanel(wx.Panel):
         pub.subscribe(self.OnTime, "Time Pressure_Chamber")
         pub.subscribe(self.OnTime, "Time Pressure_Sample")
         pub.subscribe(self.OnTime, "Time Temp_Sample")
-        #pub.subscribe(self.OnTime, "Time Temp_Feedthroughs")
+        pub.subscribe(self.OnTime, "Time Temp_Feedthroughs")
         pub.subscribe(self.OnTime, "Time Displacement")
 
         pub.subscribe(self.OnPressureCyl, "Pressure_Cyl")
@@ -689,8 +689,8 @@ class StatusPanel(wx.Panel):
         pub.subscribe(self.OnPressureSample, "Pressure_Sample")
 
         pub.subscribe(self.OnTempSample, "Temp_Sample")
-        #pub.subscribe(self.OnTempFTL, "Temp_Feedthrough_Left")
-        #pub.subscribe(self.OnTempFTR, "Temp_Feedthrough_Right")
+        pub.subscribe(self.OnTempFTL, "Temp_Feedthrough_Left")
+        pub.subscribe(self.OnTempFTR, "Temp_Feedthrough_Right")
 
         pub.subscribe(self.OnDisplacement, "Displacement")
 
@@ -790,10 +790,10 @@ class StatusPanel(wx.Panel):
         self.label_press_chamber.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_temp_sample = wx.StaticText(self, label="temp_sample ("+self.celsius+"):")
         self.label_temp_sample.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-        #self.label_temp_ftl = wx.StaticText(self, label="temp_feedtrough_left ("+self.celsius+"):")
-        #self.label_temp_ftl.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-        #self.label_temp_ftr = wx.StaticText(self, label="temp_feedtrough_right ("+self.celsius+"):")
-        #self.label_temp_ftr.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
+        self.label_temp_ftl = wx.StaticText(self, label="temp_feedtrough_left ("+self.celsius+"):")
+        self.label_temp_ftl.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
+        self.label_temp_ftr = wx.StaticText(self, label="temp_feedtrough_right ("+self.celsius+"):")
+        self.label_temp_ftr.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_displacement = wx.StaticText(self, label="displacement (mm):")
         self.label_displacement.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
 
@@ -809,10 +809,10 @@ class StatusPanel(wx.Panel):
         self.presschambercurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.tempsamplecurrent = wx.StaticText(self, label=self.temp_sample)
         self.tempsamplecurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-        #self.tempftlcurrent = wx.StaticText(self, label=self.temp_ft_left)
-        #self.tempftlcurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-        #self.tempftrcurrent = wx.StaticText(self, label=self.temp_ft_right)
-        #self.tempftrcurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
+        self.tempftlcurrent = wx.StaticText(self, label=self.temp_ft_left)
+        self.tempftlcurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
+        self.tempftrcurrent = wx.StaticText(self, label=self.temp_ft_right)
+        self.tempftrcurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.displacementcurrent = wx.StaticText(self, label=self.displacement)
         self.displacementcurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
     #end def
@@ -825,14 +825,14 @@ class StatusPanel(wx.Panel):
         self.presssamplecurrent.SetLabel(self.pressure_sample)
         self.presschambercurrent.SetLabel(self.pressure_chamber)
         self.tempsamplecurrent.SetLabel(self.temp_sample)
-        #self.tempftlcurrent.SetLabel(self.temp_ft_left)
-        #self.tempftrcurrent.SetLabel(self.temp_ft_right)
+        self.tempftlcurrent.SetLabel(self.temp_ft_left)
+        self.tempftrcurrent.SetLabel(self.temp_ft_right)
         self.displacementcurrent.SetLabel(self.displacement)
     #end def
 
     #--------------------------------------------------------------------------
     def create_sizer(self):
-        sizer = wx.GridBagSizer(10,2)
+        sizer = wx.GridBagSizer(12,2)
 
         sizer.Add(self.titlePanel, (0, 0), span = (1,2), border=5, flag=wx.ALIGN_CENTER_HORIZONTAL)
 
@@ -852,15 +852,15 @@ class StatusPanel(wx.Panel):
 
         sizer.Add(self.label_temp_sample, (7,0))
         sizer.Add(self.tempsamplecurrent, (7,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
-        #sizer.Add(self.label_temp_ftl, (9,0))
-        #sizer.Add(self.tempftlcurrent, (9,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
-        #sizer.Add(self.label_temp_ftr, (10,0))
-        #sizer.Add(self.tempftrcurrent, (10,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_temp_ftl, (8,0))
+        sizer.Add(self.tempftlcurrent, (8,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_temp_ftr, (9,0))
+        sizer.Add(self.tempftrcurrent, (9,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
 
-        sizer.Add(self.label_displacement, (8,0))
-        sizer.Add(self.displacementcurrent, (8,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_displacement, (10,0))
+        sizer.Add(self.displacementcurrent, (10,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
 
-        sizer.Add(self.linebreak2, (9,0), span = (1,2))
+        sizer.Add(self.linebreak2, (11,0), span = (1,2))
 
         self.SetSizer(sizer)
     #end def
