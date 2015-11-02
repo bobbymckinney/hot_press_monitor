@@ -169,6 +169,7 @@ class LabJack(u6.U6):
 
             LEFTtotalmVolts = LEFTmVolts + tempCToMVolts(CJTEMPinC)
             RIGHTtotalmVolts = RIGHTmVolts + tempCToMVolts(CJTEMPinC)
+
             LEFT_temp = mVoltsToTempC(LEFTtotalmVolts)
             RIGHT_temp = mVoltsToTempC(RIGHTtotalmVolts)
 
@@ -320,6 +321,7 @@ class TakeData:
         print "time: %.0f s\ttemp_feedthrough_left: %f C" % (self.ttemp_ft, self.temp_ftl)
         print "time: %.0f s\ttemp_feedthrough_right: %f C" % (self.ttemp_ft, self.temp_ftr)
 
+
         #time.sleep(.1)
 
         # get displacement
@@ -337,7 +339,7 @@ class TakeData:
         global myfile
         print('Write data to file')
         time = np.average([self.tdisp,self.tpressure_cyl,self.tvacuum,self.ttemp_sample])
-        myfile.write('%.0f,%.3f,%.3f,%.6f,%.4f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.temp_ftl, self.temp_ftr) )
+        myfile.write('%.1f,%.3f,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.temp_ftl, self.temp_ftr) )
     #end def
 
     #--------------------------------------------------------------------------
@@ -725,13 +727,13 @@ class StatusPanel(wx.Panel):
 
     #--------------------------------------------------------------------------
     def OnTempFTL(self, msg):
-        self.temp_ft_left = '%.0f'%(float(msg))
+        self.temp_ft_left = '%.1f'%(float(msg))
         self.update_values()
     #end def
 
     #--------------------------------------------------------------------------
     def OnTempFTR(self, msg):
-        self.temp_ft_right = '%.0f'%(float(msg))
+        self.temp_ft_right = '%.1f'%(float(msg))
         self.update_values()
     #end def
 
@@ -790,9 +792,9 @@ class StatusPanel(wx.Panel):
         self.label_press_chamber.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_temp_sample = wx.StaticText(self, label="temp_sample ("+self.celsius+"):")
         self.label_temp_sample.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-        self.label_temp_ftl = wx.StaticText(self, label="temp_feedtrough_left ("+self.celsius+"):")
+        self.label_temp_ftl = wx.StaticText(self, label="temp_feedthrough_left ("+self.celsius+"):")
         self.label_temp_ftl.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-        self.label_temp_ftr = wx.StaticText(self, label="temp_feedtrough_right ("+self.celsius+"):")
+        self.label_temp_ftr = wx.StaticText(self, label="temp_feedthrough_right ("+self.celsius+"):")
         self.label_temp_ftr.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_displacement = wx.StaticText(self, label="displacement (mm):")
         self.label_displacement.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
@@ -1710,7 +1712,8 @@ def tempCToMVolts(tempC):
 
 def mVoltsToTempC(mVolts):
     coeffs = voltsToTempConstants(mVolts)
-    return evaluatePolynomial(coeffs, mVolts)
+    temp = float(evaluatePolynomial(coeffs, mVolts))
+    return temp
 
 #==============================================================================
 if __name__=='__main__':
