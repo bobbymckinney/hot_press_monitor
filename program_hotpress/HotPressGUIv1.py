@@ -337,7 +337,7 @@ class TakeData:
         global myfile
         print('Write data to file')
         time = np.average([self.tdisp,self.tpressure_cyl,self.tvacuum,self.ttemp_sample])
-        myfile.write('%.0f,%.3f,%.3f,%.6f,%.4f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample) )
+        myfile.write('%.0f,%.3f,%.3f,%.6f,%.4f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.temp_ftl, self.temp_ftr) )
     #end def
 
     #--------------------------------------------------------------------------
