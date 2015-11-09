@@ -74,6 +74,7 @@ disp_zero = 0 #Set's the zero point voltage for displacement measurements
 
 ttemp_sample_list = []
 temp_sample_list = []
+setpoint_sample_list = []
 tdisp_list = []
 disp_list = []
 tpress_sample_list = []
@@ -324,13 +325,15 @@ class TakeData:
 
         #time.sleep(.1)
 
-        # get displacement
+        # get sample temp and setpoint
         self.temp_sample = self.pid.get_pv()
+        self.setpoint_sample = self.pid.get_setpoint()
         self.ttemp_sample = time.time() - self.start
         self.updateGUI(stamp="Time Temp_Sample", data=self.ttemp_sample)
         self.updateGUI(stamp="Temp_Sample", data=self.temp_sample)
+        self.updateGUI(stamp="Setpoint_Sample", data=self.setpoint_sample)
         print "time: %.0f s\ttemp_sample: %f C" % (self.ttemp_sample, self.temp_sample)
-
+        print "time: %.0f s\tsetpoint_sample: %f C" % (self.ttemp_sample, self.setpoint_sample)
         time.sleep(.1)
     #end def
 
@@ -339,7 +342,7 @@ class TakeData:
         global myfile
         print('Write data to file')
         time = np.average([self.tdisp,self.tpressure_cyl,self.tvacuum,self.ttemp_sample])
-        myfile.write('%.1f,%.3f,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.temp_ftl, self.temp_ftr) )
+        myfile.write('%.1f,%.3f,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.setpoint_sample, self.temp_ftl, self.temp_ftr) )
     #end def
 
     #--------------------------------------------------------------------------
@@ -518,7 +521,7 @@ class UserPanel(wx.Panel):
                 file = dataFile # creates a data file
                 myfile = open(dataFile, 'w') # opens file for writing/overwriting
                 myfile.write('hot press data\nstart time: ' + str(begin) + '\n')
-                myfile.write('run time (s), displacement (mm), cylinder pressure (PSI), sample pressure (MPa), vacuum pressure (mTorr), sample temperature (C), left feedthrough temperature (C),right feedthrough temperature (C)\n')
+                myfile.write('run time (s), displacement (mm), cylinder pressure (PSI), sample pressure (MPa), vacuum pressure (mTorr), sample temperature (C), sample setpoint temp (C), left feedthrough temperature (C),right feedthrough temperature (C)\n')
 
                 abort_ID = 0
 
@@ -665,6 +668,7 @@ class StatusPanel(wx.Panel):
         self.pressure_sample = str(0)
         self.pressure_chamber = str(0)
         self.temp_sample = str(30)
+        self.setpoint_sample = str(30)
         self.temp_ft_left = str(30)
         self.temp_ft_right = str(30)
         self.displacement = str(0)
@@ -691,6 +695,7 @@ class StatusPanel(wx.Panel):
         pub.subscribe(self.OnPressureSample, "Pressure_Sample")
 
         pub.subscribe(self.OnTempSample, "Temp_Sample")
+        pub.subscribe(self.OnSetpointSample, "Setpoint_Sample")
         pub.subscribe(self.OnTempFTL, "Temp_Feedthrough_Left")
         pub.subscribe(self.OnTempFTR, "Temp_Feedthrough_Right")
 
@@ -722,6 +727,12 @@ class StatusPanel(wx.Panel):
     #--------------------------------------------------------------------------
     def OnTempSample(self, msg):
         self.temp_sample = '%.1f'%(float(msg))
+        self.update_values()
+    #end def
+
+    #--------------------------------------------------------------------------
+    def OnSetpointSample(self, msg):
+        self.setpoint_sample = '%.1f'%(float(msg))
         self.update_values()
     #end def
 
@@ -792,6 +803,8 @@ class StatusPanel(wx.Panel):
         self.label_press_chamber.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_temp_sample = wx.StaticText(self, label="temp_sample ("+self.celsius+"):")
         self.label_temp_sample.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
+        self.label_setpoint_sample = wx.StaticText(self, label="setpoint_sample ("+self.celsius+"):")
+        self.label_setpoint_sample.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_temp_ftl = wx.StaticText(self, label="temp_feedthrough_left ("+self.celsius+"):")
         self.label_temp_ftl.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.label_temp_ftr = wx.StaticText(self, label="temp_feedthrough_right ("+self.celsius+"):")
@@ -811,6 +824,8 @@ class StatusPanel(wx.Panel):
         self.presschambercurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.tempsamplecurrent = wx.StaticText(self, label=self.temp_sample)
         self.tempsamplecurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
+        self.setpointsamplecurrent = wx.StaticText(self, label=self.setpoint_sample)
+        self.setpointsamplecurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.tempftlcurrent = wx.StaticText(self, label=self.temp_ft_left)
         self.tempftlcurrent.SetFont(wx.Font(16, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
         self.tempftrcurrent = wx.StaticText(self, label=self.temp_ft_right)
@@ -827,6 +842,7 @@ class StatusPanel(wx.Panel):
         self.presssamplecurrent.SetLabel(self.pressure_sample)
         self.presschambercurrent.SetLabel(self.pressure_chamber)
         self.tempsamplecurrent.SetLabel(self.temp_sample)
+        self.setpointsamplecurrent.SetLabel(self.setpoint_sample)
         self.tempftlcurrent.SetLabel(self.temp_ft_left)
         self.tempftrcurrent.SetLabel(self.temp_ft_right)
         self.displacementcurrent.SetLabel(self.displacement)
@@ -854,15 +870,17 @@ class StatusPanel(wx.Panel):
 
         sizer.Add(self.label_temp_sample, (7,0))
         sizer.Add(self.tempsamplecurrent, (7,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
-        sizer.Add(self.label_temp_ftl, (8,0))
-        sizer.Add(self.tempftlcurrent, (8,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
-        sizer.Add(self.label_temp_ftr, (9,0))
-        sizer.Add(self.tempftrcurrent, (9,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_setpoint_sample, (8,0))
+        sizer.Add(self.setpointsamplecurrent, (8,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_temp_ftl, (9,0))
+        sizer.Add(self.tempftlcurrent, (9,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_temp_ftr, (10,0))
+        sizer.Add(self.tempftrcurrent, (10,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
 
-        sizer.Add(self.label_displacement, (10,0))
-        sizer.Add(self.displacementcurrent, (10,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.label_displacement, (11,0))
+        sizer.Add(self.displacementcurrent, (11,1),flag=wx.ALIGN_CENTER_HORIZONTAL)
 
-        sizer.Add(self.linebreak2, (11,0), span = (1,2))
+        sizer.Add(self.linebreak2, (12,0), span = (1,2))
 
         self.SetSizer(sizer)
     #end def
@@ -1028,6 +1046,7 @@ class TemperaturePanel(wx.Panel):
 
         global ttemp_sample_list
         global temp_sample_list
+        global setpoint_sample_list
 
         self.create_title("Sample Temperature")
         self.init_plot()
@@ -1037,6 +1056,7 @@ class TemperaturePanel(wx.Panel):
 
         pub.subscribe(self.OnTimeTempSample, "Time Temp_Sample")
         pub.subscribe(self.OnTempSample, "Temp_Sample")
+        pub.subscribe(self.OnSetpointSample, "Setpoint_Sample")
 
 
         # For saving the plots at the end of data acquisition:
@@ -1090,16 +1110,23 @@ class TemperaturePanel(wx.Panel):
     #end def
 
     #--------------------------------------------------------------------------
+    def OnSetpointSample(self, msg):
+        self.setpoint_sample = float(msg)
+        setpoint_sample_list.append(self.setpoint_sample)
+    #end def
+
+    #--------------------------------------------------------------------------
     def init_plot(self):
         self.dpi = 100
         self.colorTsample = 'r'
+        self.colorSPsample = 'b'
 
         self.figure = Figure((6.5,3.25), dpi=self.dpi)
         self.subplot = self.figure.add_subplot(111)
 
         self.lineTsample, = self.subplot.plot(ttemp_sample_list,temp_sample_list, color=self.colorTsample, linewidth=1)
-
-        self.legend = self.figure.legend( (self.lineTsample,), (r"$T_{sample}$",), (0.15,0.75),fontsize=10)
+        self.lineSPsample, = self.subplot.plot(ttemp_sample_list,setpoint_sample_list, color=self.colorSPsample, linewidth=1)
+        self.legend = self.figure.legend( (self.lineTsample,self.lineSPsample), (r"$T_{sample}$",r"$SP_{sample}"), (0.15,0.75),fontsize=10)
         #self.subplot.text(0.05, .95, r'$X(f) = \mathcal{F}\{x(t)\}$', \
             #verticalalignment='top', transform = self.subplot.transAxes)
     #end def
@@ -1121,12 +1148,12 @@ class TemperaturePanel(wx.Panel):
         else:
             xmin = float(self.xmin_control.manual_value())
         if self.ymin_control.is_auto():
-            minT = min(temp_sample_list)
+            minT = min(temp_sample_list+setpoint_sample_list)
             ymin = minT - abs(minT)*0.3
         else:
             ymin = float(self.ymin_control.manual_value())
         if self.ymax_control.is_auto():
-            maxT = max(temp_sample_list)
+            maxT = max(temp_sample_list+setpoint_sample_list)
             ymax = maxT + abs(maxT)*0.3
         else:
             ymax = float(self.ymax_control.manual_value())
@@ -1138,8 +1165,8 @@ class TemperaturePanel(wx.Panel):
         pylab.setp(self.subplot.get_yticklabels(), fontsize=8)
 
         self.lineTsample, = self.subplot.plot(ttemp_sample_list,temp_sample_list, color=self.colorTsample, linewidth=1)
-
-        return self.lineTsample,
+        self.lineSPsample, = self.subplot.plot(ttemp_sample_list,setpoint_sample_list, color=self.colorSPsample, linewidth=1)
+        return (self.lineTsample, self.lineSPsample)
 
     #end def
 
