@@ -342,7 +342,7 @@ class TakeData:
         global myfile
         print('Write data to file')
         time = np.average([self.tdisp,self.tpressure_cyl,self.tvacuum,self.ttemp_sample])
-        myfile.write('%.1f,%.3f,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.setpoint_sample, self.temp_ftl, self.temp_ftr) )
+        myfile.write('%.1f,%.3f,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f,%.1f\n' % (time, self.disp, self.pressure_cyl, self.pressure_sample * 10**-6, self.vacuum * 10**3, self.temp_sample, self.setpoint_sample, self.temp_ftl, self.temp_ftr) )
     #end def
 
     #--------------------------------------------------------------------------
@@ -1126,7 +1126,7 @@ class TemperaturePanel(wx.Panel):
 
         self.lineTsample, = self.subplot.plot(ttemp_sample_list,temp_sample_list, color=self.colorTsample, linewidth=1)
         self.lineSPsample, = self.subplot.plot(ttemp_sample_list,setpoint_sample_list, color=self.colorSPsample, linewidth=1)
-        self.legend = self.figure.legend( (self.lineTsample,self.lineSPsample), (r"$T_{sample}$",r"$SP_{sample}"), (0.15,0.75),fontsize=10)
+        self.legend = self.figure.legend( (self.lineTsample,self.lineSPsample), (r"$T_{sample}$",r"$SP_{sample}$"), (0.15,0.75),fontsize=10)
         #self.subplot.text(0.05, .95, r'$X(f) = \mathcal{F}\{x(t)\}$', \
             #verticalalignment='top', transform = self.subplot.transAxes)
     #end def
